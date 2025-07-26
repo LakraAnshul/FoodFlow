@@ -1,5 +1,6 @@
 import { Heart, Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -34,11 +35,11 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">How It Works</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">For Food Providers</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">For NGOs</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Success Stories</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
+              <li><Link to="/#how-it-works" className="text-muted-foreground hover:text-foreground transition-colors">How It Works</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">For Food Providers</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">For NGOs</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">Success Stories</Link></li>
+              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -46,11 +47,11 @@ export const Footer = () => {
           <div>
             <h3 className="font-semibold text-foreground mb-4">Support</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Safety Guidelines</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Community Standards</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Report Issue</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</a></li>
+              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Help Center</Link></li>
+              <li><Link to="/about" className="text-muted-foreground hover:text-foreground transition-colors">Safety Guidelines</Link></li>
+              <li><Link to="/terms" className="text-muted-foreground hover:text-foreground transition-colors">Community Standards</Link></li>
+              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Report Issue</Link></li>
+              <li><Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -83,15 +84,15 @@ export const Footer = () => {
             © 2024 Food Flow. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Privacy Policy
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Terms of Service
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+            </Link>
+            <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Cookie Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>

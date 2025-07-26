@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Utensils, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-food-sharing.jpg";
 
 export const HeroSection = () => {
@@ -32,12 +33,14 @@ export const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Button size="lg" className="group">
-                I Want to Donate Food
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <Button size="lg" className="group" asChild>
+                <Link to="/signup">
+                  I Want to Donate Food
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </Button>
-              <Button variant="outline" size="lg">
-                I Need Food
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/signup">I Need Food</Link>
               </Button>
             </div>
 
