@@ -14,7 +14,237 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          buyer_id: string
+          buyer_notes: string | null
+          created_at: string
+          food_listing_id: string
+          id: string
+          lister_id: string
+          lister_notes: string | null
+          pickup_time: string
+          quantity_requested: number
+          status: string
+          total_amount: number | null
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          buyer_notes?: string | null
+          created_at?: string
+          food_listing_id: string
+          id?: string
+          lister_id: string
+          lister_notes?: string | null
+          pickup_time: string
+          quantity_requested: number
+          status?: string
+          total_amount?: number | null
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          buyer_notes?: string | null
+          created_at?: string
+          food_listing_id?: string
+          id?: string
+          lister_id?: string
+          lister_notes?: string | null
+          pickup_time?: string
+          quantity_requested?: number
+          status?: string
+          total_amount?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_buyer_id_fkey"
+            columns: ["buyer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_food_listing_id_fkey"
+            columns: ["food_listing_id"]
+            isOneToOne: false
+            referencedRelation: "food_listings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_lister_id_fkey"
+            columns: ["lister_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      food_listings: {
+        Row: {
+          contact_phone: string | null
+          created_at: string
+          description: string | null
+          expiry_date: string
+          food_type: string | null
+          id: string
+          image_url: string | null
+          is_available: boolean
+          lister_id: string
+          pickup_location: string
+          pickup_time_end: string
+          pickup_time_start: string
+          price: number | null
+          quantity: number
+          special_instructions: string | null
+          title: string
+          unit: string
+          updated_at: string
+        }
+        Insert: {
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          expiry_date: string
+          food_type?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean
+          lister_id: string
+          pickup_location: string
+          pickup_time_end: string
+          pickup_time_start: string
+          price?: number | null
+          quantity: number
+          special_instructions?: string | null
+          title: string
+          unit: string
+          updated_at?: string
+        }
+        Update: {
+          contact_phone?: string | null
+          created_at?: string
+          description?: string | null
+          expiry_date?: string
+          food_type?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean
+          lister_id?: string
+          pickup_location?: string
+          pickup_time_end?: string
+          pickup_time_start?: string
+          price?: number | null
+          quantity?: number
+          special_instructions?: string | null
+          title?: string
+          unit?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "food_listings_lister_id_fkey"
+            columns: ["lister_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean
+          message: string
+          related_booking_id: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message: string
+          related_booking_id?: string | null
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message?: string
+          related_booking_id?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_related_booking_id_fkey"
+            columns: ["related_booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          organization_name: string | null
+          organization_type: string | null
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          organization_name?: string | null
+          organization_type?: string | null
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          organization_name?: string | null
+          organization_type?: string | null
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +253,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "buyer" | "lister"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +380,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["buyer", "lister"],
+    },
   },
 } as const
