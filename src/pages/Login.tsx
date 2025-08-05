@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Heart, Mail, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -51,7 +52,7 @@ export default function Login() {
           <p className="text-muted-foreground">Sign in to continue your food sharing journey</p>
         </div>
 
-        <Card className="shadow-card border-border">
+        <Card className="glass-card shadow-card">
           <CardHeader>
             <CardTitle className="text-center">Choose Your Role</CardTitle>
           </CardHeader>
@@ -89,10 +90,9 @@ export default function Login() {
                   <div className="space-y-2">
                     <Label htmlFor="buyer-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input 
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                      <PasswordInput 
                         id="buyer-password" 
-                        type="password" 
                         placeholder="Enter your password" 
                         className="pl-10"
                         value={password}
@@ -135,10 +135,9 @@ export default function Login() {
                   <div className="space-y-2">
                     <Label htmlFor="lister-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input 
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                      <PasswordInput 
                         id="lister-password" 
-                        type="password" 
                         placeholder="Enter your password" 
                         className="pl-10"
                         value={password}

@@ -5,9 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Heart, Mail, Lock, User, Phone, MapPin, Building } from "lucide-react";
+import { PasswordInput } from "@/components/ui/password-input";
+import { Heart, Mail, Lock, User, Phone, MapPin, Building, AlertTriangle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Signup() {
   const [signupType, setSignupType] = useState<"lister" | "buyer">("buyer");
@@ -18,10 +20,12 @@ export default function Signup() {
   // Form states
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [organizationName, setOrganizationName] = useState("");
+  const { toast } = useToast();
 
   useEffect(() => {
     if (user) {
@@ -32,6 +36,26 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return;
+
+    // Password confirmation validation
+    if (password !== confirmPassword) {
+      toast({
+        title: "Password Mismatch",
+        description: "Passwords do not match. Please try again.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Password strength validation
+    if (password.length < 6) {
+      toast({
+        title: "Weak Password",
+        description: "Password must be at least 6 characters long.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     setLoading(true);
     
@@ -66,7 +90,7 @@ export default function Signup() {
           <p className="text-muted-foreground">Start making a difference in your community</p>
         </div>
 
-        <Card className="shadow-card border-border">
+        <Card className="glass-card shadow-card">
           <CardHeader>
             <CardTitle className="text-center">Create Your Account</CardTitle>
           </CardHeader>
@@ -148,17 +172,37 @@ export default function Signup() {
                   <div className="space-y-2">
                     <Label htmlFor="buyer-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input 
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                      <PasswordInput 
                         id="buyer-password" 
-                        type="password" 
-                        placeholder="Create a password" 
+                        placeholder="Create a password (min 6 characters)" 
                         className="pl-10"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="buyer-confirm-password">Confirm Password</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                      <PasswordInput 
+                        id="buyer-confirm-password" 
+                        placeholder="Confirm your password" 
+                        className="pl-10"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                      />
+                    </div>
+                    {password && confirmPassword && password !== confirmPassword && (
+                      <div className="flex items-center text-destructive text-sm">
+                        <AlertTriangle className="w-4 h-4 mr-1" />
+                        Passwords do not match
+                      </div>
+                    )}
                   </div>
 
                   <Button type="submit" className="w-full" disabled={loading}>
@@ -253,17 +297,37 @@ export default function Signup() {
                   <div className="space-y-2">
                     <Label htmlFor="lister-password">Password</Label>
                     <div className="relative">
-                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input 
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                      <PasswordInput 
                         id="lister-password" 
-                        type="password" 
-                        placeholder="Create a password" 
+                        placeholder="Create a password (min 6 characters)" 
                         className="pl-10"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="lister-confirm-password">Confirm Password</Label>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground z-10" />
+                      <PasswordInput 
+                        id="lister-confirm-password" 
+                        placeholder="Confirm your password" 
+                        className="pl-10"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                      />
+                    </div>
+                    {password && confirmPassword && password !== confirmPassword && (
+                      <div className="flex items-center text-destructive text-sm">
+                        <AlertTriangle className="w-4 h-4 mr-1" />
+                        Passwords do not match
+                      </div>
+                    )}
                   </div>
 
                   <Button type="submit" className="w-full" disabled={loading}>

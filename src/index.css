@@ -147,4 +147,29 @@
   .transition-smooth {
     transition: var(--transition-smooth);
   }
+
+  /* Glassmorphism effects */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  }
+  
+  .dark .glass-card {
+    background: rgba(21, 43, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass-nav {
+    background: rgba(21, 43, 40, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
 }
