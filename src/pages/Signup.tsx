@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,10 +6,50 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Heart, Mail, Lock, User, Phone, MapPin, Building } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Signup() {
   const [signupType, setSignupType] = useState<"lister" | "buyer">("buyer");
+  const [loading, setLoading] = useState(false);
+  const { signUp, user } = useAuth();
+  const navigate = useNavigate();
+
+  // Form states
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      navigate(signupType === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
+    }
+  }, [user, signupType, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+
+    setLoading(true);
+    
+    const userData = {
+      full_name: fullName,
+      role: signupType,
+      phone,
+      address,
+      organization_name: signupType === "buyer" ? organizationName : fullName
+    };
+
+    const { error } = await signUp(email, password, userData);
+    setLoading(false);
+
+    if (!error) {
+      navigate(signupType === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
@@ -44,12 +84,19 @@ export default function Signup() {
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="buyer-name">Full Name / Organization Name</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-name" placeholder="Enter your name" className="pl-10" />
+                      <Input 
+                        id="buyer-name" 
+                        placeholder="Enter your name" 
+                        className="pl-10"
+                        value={organizationName}
+                        onChange={(e) => setOrganizationName(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -57,7 +104,15 @@ export default function Signup() {
                     <Label htmlFor="buyer-email">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-email" type="email" placeholder="Enter your email" className="pl-10" />
+                      <Input 
+                        id="buyer-email" 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        className="pl-10"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -65,7 +120,14 @@ export default function Signup() {
                     <Label htmlFor="buyer-phone">Phone Number</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-phone" type="tel" placeholder="Enter your phone" className="pl-10" />
+                      <Input 
+                        id="buyer-phone" 
+                        type="tel" 
+                        placeholder="Enter your phone" 
+                        className="pl-10"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
                     </div>
                   </div>
 
@@ -73,7 +135,13 @@ export default function Signup() {
                     <Label htmlFor="buyer-location">Location</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-location" placeholder="City, State" className="pl-10" />
+                      <Input 
+                        id="buyer-location" 
+                        placeholder="City, State" 
+                        className="pl-10"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
                     </div>
                   </div>
 
@@ -81,14 +149,22 @@ export default function Signup() {
                     <Label htmlFor="buyer-password">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-password" type="password" placeholder="Create a password" className="pl-10" />
+                      <Input 
+                        id="buyer-password" 
+                        type="password" 
+                        placeholder="Create a password" 
+                        className="pl-10"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/buyer-dashboard">Create Food Buyer Account</Link>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Creating Account..." : "Create Food Buyer Account"}
                   </Button>
-                </div>
+                </form>
               </TabsContent>
 
               <TabsContent value="lister" className="space-y-4">
@@ -98,12 +174,19 @@ export default function Signup() {
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="lister-business">Business Name</Label>
                     <div className="relative">
                       <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-business" placeholder="Enter business name" className="pl-10" />
+                      <Input 
+                        id="lister-business" 
+                        placeholder="Enter business name" 
+                        className="pl-10"
+                        value={organizationName}
+                        onChange={(e) => setOrganizationName(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -111,7 +194,14 @@ export default function Signup() {
                     <Label htmlFor="lister-contact">Contact Person</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-contact" placeholder="Contact person name" className="pl-10" />
+                      <Input 
+                        id="lister-contact" 
+                        placeholder="Contact person name" 
+                        className="pl-10"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -119,7 +209,15 @@ export default function Signup() {
                     <Label htmlFor="lister-email">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-email" type="email" placeholder="Business email" className="pl-10" />
+                      <Input 
+                        id="lister-email" 
+                        type="email" 
+                        placeholder="Business email" 
+                        className="pl-10"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -127,7 +225,14 @@ export default function Signup() {
                     <Label htmlFor="lister-phone">Phone Number</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-phone" type="tel" placeholder="Business phone" className="pl-10" />
+                      <Input 
+                        id="lister-phone" 
+                        type="tel" 
+                        placeholder="Business phone" 
+                        className="pl-10"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                      />
                     </div>
                   </div>
 
@@ -135,7 +240,13 @@ export default function Signup() {
                     <Label htmlFor="lister-address">Business Address</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Textarea id="lister-address" placeholder="Full business address" className="pl-10 min-h-[60px]" />
+                      <Textarea 
+                        id="lister-address" 
+                        placeholder="Full business address" 
+                        className="pl-10 min-h-[60px]"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
                     </div>
                   </div>
 
@@ -143,14 +254,22 @@ export default function Signup() {
                     <Label htmlFor="lister-password">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-password" type="password" placeholder="Create a password" className="pl-10" />
+                      <Input 
+                        id="lister-password" 
+                        type="password" 
+                        placeholder="Create a password" 
+                        className="pl-10"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/lister-dashboard">Create Food Lister Account</Link>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Creating Account..." : "Create Food Lister Account"}
                   </Button>
-                </div>
+                </form>
               </TabsContent>
             </Tabs>
 

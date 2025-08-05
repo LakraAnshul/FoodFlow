@@ -1,14 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Heart, Mail, Lock, User, Phone, MapPin } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Heart, Mail, Lock } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Login() {
   const [loginType, setLoginType] = useState<"lister" | "buyer">("buyer");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { signIn, user } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      // Redirect based on user role after login
+      navigate(loginType === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
+    }
+  }, [user, loginType, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password) return;
+
+    setLoading(true);
+    const { error } = await signIn(email, password);
+    setLoading(false);
+
+    if (!error) {
+      navigate(loginType === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
@@ -43,12 +69,20 @@ export default function Login() {
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="buyer-email">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-email" type="email" placeholder="Enter your email" className="pl-10" />
+                      <Input 
+                        id="buyer-email" 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        className="pl-10"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -56,14 +90,22 @@ export default function Login() {
                     <Label htmlFor="buyer-password">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="buyer-password" type="password" placeholder="Enter your password" className="pl-10" />
+                      <Input 
+                        id="buyer-password" 
+                        type="password" 
+                        placeholder="Enter your password" 
+                        className="pl-10"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/buyer-dashboard">Sign In as Food Buyer</Link>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Signing In..." : "Sign In as Food Buyer"}
                   </Button>
-                </div>
+                </form>
               </TabsContent>
 
               <TabsContent value="lister" className="space-y-4">
@@ -73,12 +115,20 @@ export default function Login() {
                   </p>
                 </div>
 
-                <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="lister-email">Email</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-email" type="email" placeholder="Enter your email" className="pl-10" />
+                      <Input 
+                        id="lister-email" 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        className="pl-10"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
@@ -86,14 +136,22 @@ export default function Login() {
                     <Label htmlFor="lister-password">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input id="lister-password" type="password" placeholder="Enter your password" className="pl-10" />
+                      <Input 
+                        id="lister-password" 
+                        type="password" 
+                        placeholder="Enter your password" 
+                        className="pl-10"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
                     </div>
                   </div>
 
-                  <Button className="w-full" asChild>
-                    <Link to="/lister-dashboard">Sign In as Food Lister</Link>
+                  <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? "Signing In..." : "Sign In as Food Lister"}
                   </Button>
-                </div>
+                </form>
               </TabsContent>
             </Tabs>
 
