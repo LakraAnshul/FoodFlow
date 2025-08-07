@@ -35,7 +35,14 @@ export default function Signup() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email || !password || !phone) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields including phone number for OTP verification.",
+        variant: "destructive"
+      });
+      return;
+    }
 
     // Password confirmation validation
     if (password !== confirmPassword) {
@@ -71,7 +78,19 @@ export default function Signup() {
     setLoading(false);
 
     if (!error) {
-      navigate(signupType === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
+      // Navigate to OTP verification with signup data
+      navigate("/otp-signup", {
+        state: {
+          signupData: {
+            email,
+            phone,
+            role: signupType,
+            fullName,
+            address,
+            organizationName
+          }
+        }
+      });
     }
   };
 
@@ -151,6 +170,7 @@ export default function Signup() {
                         className="pl-10"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        required
                       />
                     </div>
                   </div>
@@ -276,6 +296,7 @@ export default function Signup() {
                         className="pl-10"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        required
                       />
                     </div>
                   </div>

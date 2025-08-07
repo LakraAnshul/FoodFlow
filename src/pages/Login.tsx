@@ -163,9 +163,12 @@ export default function Login() {
               </p>
             </div>
 
-            <div className="mt-4 text-center">
-              <Link to="/forgot-password" className="text-sm text-muted-foreground hover:text-foreground">
+            <div className="mt-4 text-center space-y-2">
+              <Link to="/forgot-password" className="text-sm text-muted-foreground hover:text-foreground block">
                 Forgot your password?
+              </Link>
+              <Link to="/otp-login" className="text-sm text-primary hover:underline block">
+                Sign in with OTP instead
               </Link>
             </div>
           </CardContent>

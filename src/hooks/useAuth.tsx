@@ -9,6 +9,9 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string, userData: any) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
+  signInWithOtp: (contact: string, type: 'email' | 'phone') => Promise<{ error: any }>;
+  verifyOtp: (contact: string, otp: string, type: 'email' | 'phone') => Promise<{ error: any }>;
+  resendOtp: (contact: string, type: 'email' | 'phone') => Promise<{ error: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -90,6 +93,56 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
+  const signInWithOtp = async (contact: string, type: 'email' | 'phone') => {
+    const otpOptions = type === 'email' 
+      ? { email: contact }
+      : { phone: contact };
+
+    const { error } = await supabase.auth.signInWithOtp(otpOptions);
+
+    if (error) {
+      toast({
+        title: "OTP Send Error",
+        description: error.message,
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "OTP Sent",
+        description: `Verification code sent to your ${type}`,
+      });
+    }
+
+    return { error };
+  };
+
+  const verifyOtp = async (contact: string, otp: string, type: 'email' | 'phone') => {
+    const verifyOptions = type === 'email'
+      ? { email: contact, token: otp, type: 'email' as const }
+      : { phone: contact, token: otp, type: 'sms' as const };
+
+    const { error } = await supabase.auth.verifyOtp(verifyOptions);
+
+    if (error) {
+      toast({
+        title: "Verification Failed",
+        description: error.message,
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "Verification Successful",
+        description: "You have been signed in successfully",
+      });
+    }
+
+    return { error };
+  };
+
+  const resendOtp = async (contact: string, type: 'email' | 'phone') => {
+    return await signInWithOtp(contact, type);
+  };
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -108,6 +161,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       loading,
       signUp,
       signIn,
+      signInWithOtp,
+      verifyOtp,
+      resendOtp,
       signOut
     }}>
       {children}

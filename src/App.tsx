@@ -10,6 +10,8 @@ import { BackToTop } from "@/components/ui/back-to-top";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import OtpLogin from "./pages/OtpLogin";
+import OtpSignup from "./pages/OtpSignup";
 import BuyerDashboard from "./pages/BuyerDashboard";
 import ListerDashboard from "./pages/ListerDashboard";
 import BookingPage from "./pages/BookingPage";
@@ -33,6 +35,8 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/otp-login" element={<OtpLogin />} />
+              <Route path="/otp-signup" element={<OtpSignup />} />
               <Route path="/buyer-dashboard" element={
                 <ProtectedRoute requiredRole="buyer">
                   <BuyerDashboard />
