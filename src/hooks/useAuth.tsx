@@ -95,8 +95,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signInWithOtp = async (contact: string, type: 'email' | 'phone') => {
     const otpOptions = type === 'email' 
-      ? { email: contact }
-      : { phone: contact };
+      ? { 
+          email: contact,
+          options: {
+            shouldCreateUser: false // Don't create user during login OTP
+          }
+        }
+      : { 
+          phone: contact,
+          options: {
+            shouldCreateUser: false // Don't create user during login OTP
+          }
+        };
 
     const { error } = await supabase.auth.signInWithOtp(otpOptions);
 

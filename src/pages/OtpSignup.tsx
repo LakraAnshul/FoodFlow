@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useOtpAuth } from "@/hooks/useOtpAuth";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DualOtpVerification } from "@/components/ui/dual-otp-verification";
 import { useToast } from "@/hooks/use-toast";
@@ -14,7 +15,8 @@ interface SignupData {
 }
 
 export default function OtpSignup() {
-  const { verifyOtp, resendOtp, user } = useAuth();
+  const { user } = useAuth();
+  const { verifySignupOtp, resendSignupOtp } = useOtpAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -38,19 +40,19 @@ export default function OtpSignup() {
   }
 
   const handleEmailVerify = async (otp: string) => {
-    return await verifyOtp(signupData.email, otp, 'email');
+    return await verifySignupOtp(signupData.email, otp, 'email');
   };
 
   const handlePhoneVerify = async (otp: string) => {
-    return await verifyOtp(signupData.phone, otp, 'phone');
+    return await verifySignupOtp(signupData.phone, otp, 'phone');
   };
 
   const handleEmailResend = async () => {
-    return await resendOtp(signupData.email, 'email');
+    return await resendSignupOtp(signupData.email, 'email');
   };
 
   const handlePhoneResend = async () => {
-    return await resendOtp(signupData.phone, 'phone');
+    return await resendSignupOtp(signupData.phone, 'phone');
   };
 
   const handleComplete = () => {
