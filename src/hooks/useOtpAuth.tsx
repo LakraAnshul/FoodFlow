@@ -10,11 +10,12 @@ export function useOtpAuth() {
     setLoading(true);
     
     try {
-      // Send email OTP
+      // Send email OTP - explicitly request OTP type
       const { error: emailError } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true,
+          emailRedirectTo: undefined, // This prevents magic link
           data: userData
         }
       });
@@ -30,12 +31,19 @@ export function useOtpAuth() {
         }
       });
 
-      if (phoneError) throw phoneError;
-
-      toast({
-        title: "OTP Sent",
-        description: "Verification codes sent to both email and phone",
-      });
+      if (phoneError) {
+        console.warn('Phone OTP failed:', phoneError.message);
+        // Don't throw error for phone, continue with email only
+        toast({
+          title: "OTP Sent",
+          description: "Verification code sent to email. Phone verification unavailable.",
+        });
+      } else {
+        toast({
+          title: "OTP Sent",
+          description: "Verification codes sent to both email and phone",
+        });
+      }
 
       return { error: null };
     } catch (error: any) {
@@ -70,7 +78,12 @@ export function useOtpAuth() {
 
   const resendSignupOtp = async (contact: string, type: 'email' | 'phone') => {
     const otpOptions = type === 'email' 
-      ? { email: contact }
+      ? { 
+          email: contact,
+          options: {
+            emailRedirectTo: undefined // Prevent magic link
+          }
+        }
       : { phone: contact };
 
     const { error } = await supabase.auth.signInWithOtp(otpOptions);
