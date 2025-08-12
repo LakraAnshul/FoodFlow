@@ -4,6 +4,7 @@ import { useOtpAuth } from "@/hooks/useOtpAuth";
 import { useNavigate, useLocation } from "react-router-dom";
 import { DualOtpVerification } from "@/components/ui/dual-otp-verification";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SignupData {
   email: string;
@@ -12,6 +13,7 @@ interface SignupData {
   fullName: string;
   address: string;
   organizationName: string;
+  password: string;
 }
 
 export default function OtpSignup() {
@@ -32,6 +34,8 @@ export default function OtpSignup() {
     // Do NOT redirect on user presence; we wait until both verifications are complete
   }, [signupData, navigate]);
 
+  const formatPhone = (p: string) => (p?.trim().startsWith("+") ? p.trim() : `+${p?.trim()}`);
+
   if (!signupData) {
     return null;
   }
@@ -39,24 +43,33 @@ export default function OtpSignup() {
   const handleEmailVerify = async (otp: string) => {
     const result = await verifySignupOtp(signupData.email, otp, 'email');
     if (!result.error) {
+      // Set the password now that email is verified (user is authenticated)
+      try {
+        if (signupData.password) {
+          const { error: pwError } = await supabase.auth.updateUser({ password: signupData.password });
+          if (pwError) {
+            toast({ title: "Password Setup Error", description: pwError.message, variant: "destructive" });
+          }
+        }
+      } catch (e: any) {
+        // ignore, toast already shown
+      }
       // After email verification, trigger phone OTP via updateUser
-      await sendPhoneOtp(signupData.phone);
+      await sendPhoneOtp(formatPhone(signupData.phone));
     }
     return result;
   };
 
   const handlePhoneVerify = async (otp: string) => {
-    return await verifySignupOtp(signupData.phone, otp, 'phone');
+    return await verifySignupOtp(formatPhone(signupData.phone), otp, 'phone');
   };
-
   const handleEmailResend = async () => {
     return await resendSignupOtp(signupData.email, 'email');
   };
 
   const handlePhoneResend = async () => {
-    return await resendSignupOtp(signupData.phone, 'phone');
+    return await resendSignupOtp(formatPhone(signupData.phone), 'phone');
   };
-
   const handleComplete = () => {
     toast({
       title: "Account Verified!",

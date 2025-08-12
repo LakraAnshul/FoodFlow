@@ -30,10 +30,8 @@ export default function Signup() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (user) {
-      navigate(signupType === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
-    }
-  }, [user, signupType, navigate]);
+    // Do not redirect here; OTP verification flow will handle navigation after both email and phone are verified.
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,6 +65,9 @@ export default function Signup() {
     }
 
     setLoading(true);
+    
+    // Store pending password locally to set after email verification
+    try { sessionStorage.setItem('ff_pending_password', password); } catch {}
     
     const userData = {
       full_name: fullName,

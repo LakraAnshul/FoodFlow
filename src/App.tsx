@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import OtpLogin from "./pages/OtpLogin";
 import OtpSignup from "./pages/OtpSignup";
+import ForgotPassword from "./pages/ForgotPassword";
 import BuyerDashboard from "./pages/BuyerDashboard";
 import ListerDashboard from "./pages/ListerDashboard";
 import BookingPage from "./pages/BookingPage";
@@ -37,6 +38,7 @@ const App = () => (
               <Route path="/signup" element={<Signup />} />
               <Route path="/otp-login" element={<OtpLogin />} />
               <Route path="/otp-signup" element={<OtpSignup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/buyer-dashboard" element={
                 <ProtectedRoute requiredRole="buyer">
                   <BuyerDashboard />

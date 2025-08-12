@@ -5,18 +5,20 @@ import { useToast } from '@/hooks/use-toast';
 export function useOtpAuth() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const normalizePhone = (p: string) => (p?.trim().startsWith('+') ? p.trim() : `+${p?.trim()}`);
 
   const sendSignupOtp = async (email: string, phone: string, userData: any) => {
     setLoading(true);
     
     try {
       // Send email OTP - explicitly request OTP type
+      const formattedPhone = normalizePhone(phone);
       const { error: emailError } = await supabase.auth.signInWithOtp({
         email,
         options: {
           shouldCreateUser: true,
           emailRedirectTo: undefined, // This prevents magic link
-          data: userData
+          data: { ...userData, phone: formattedPhone }
         }
       });
 
@@ -47,7 +49,7 @@ export function useOtpAuth() {
   const verifySignupOtp = async (contact: string, otp: string, type: 'email' | 'phone') => {
     const verifyOptions = type === 'email'
       ? { email: contact, token: otp, type: 'email' as const }
-      : { phone: contact, token: otp, type: 'sms' as const };
+      : { phone: normalizePhone(contact), token: otp, type: 'sms' as const };
 
     const { error } = await supabase.auth.verifyOtp(verifyOptions);
 
@@ -75,7 +77,7 @@ export function useOtpAuth() {
         return { error: new Error('Session required to resend phone OTP') };
       }
 
-      const { error } = await supabase.auth.updateUser({ phone: contact });
+      const { error } = await supabase.auth.updateUser({ phone: normalizePhone(contact) });
 
       if (error) {
         toast({
@@ -128,7 +130,7 @@ export function useOtpAuth() {
       return { error: new Error('Session required to send phone OTP') };
     }
 
-    const { error } = await supabase.auth.updateUser({ phone });
+    const { error } = await supabase.auth.updateUser({ phone: normalizePhone(phone) });
 
     if (error) {
       toast({
