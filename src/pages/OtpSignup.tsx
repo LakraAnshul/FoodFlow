@@ -16,7 +16,7 @@ interface SignupData {
 
 export default function OtpSignup() {
   const { user } = useAuth();
-  const { verifySignupOtp, resendSignupOtp } = useOtpAuth();
+  const { verifySignupOtp, resendSignupOtp, sendPhoneOtp } = useOtpAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -29,18 +29,20 @@ export default function OtpSignup() {
       navigate("/signup");
       return;
     }
-
-    if (user) {
-      navigate(signupData.role === "lister" ? "/lister-dashboard" : "/buyer-dashboard");
-    }
-  }, [signupData, user, navigate]);
+    // Do NOT redirect on user presence; we wait until both verifications are complete
+  }, [signupData, navigate]);
 
   if (!signupData) {
     return null;
   }
 
   const handleEmailVerify = async (otp: string) => {
-    return await verifySignupOtp(signupData.email, otp, 'email');
+    const result = await verifySignupOtp(signupData.email, otp, 'email');
+    if (!result.error) {
+      // After email verification, trigger phone OTP via updateUser
+      await sendPhoneOtp(signupData.phone);
+    }
+    return result;
   };
 
   const handlePhoneVerify = async (otp: string) => {

@@ -10,11 +10,13 @@ import { Heart, Mail, Lock, User, Phone, MapPin, Building, AlertTriangle } from 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useOtpAuth } from "@/hooks/useOtpAuth";
 
 export default function Signup() {
   const [signupType, setSignupType] = useState<"lister" | "buyer">("buyer");
   const [loading, setLoading] = useState(false);
-  const { signUp, user } = useAuth();
+  const { user } = useAuth();
+  const { sendSignupOtp } = useOtpAuth();
   const navigate = useNavigate();
 
   // Form states
@@ -74,7 +76,7 @@ export default function Signup() {
       organization_name: signupType === "buyer" ? organizationName : fullName
     };
 
-    const { error } = await signUp(email, password, userData);
+    const { error } = await sendSignupOtp(email, phone, userData);
     setLoading(false);
 
     if (!error) {

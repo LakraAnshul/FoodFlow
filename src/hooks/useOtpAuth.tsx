@@ -22,28 +22,14 @@ export function useOtpAuth() {
 
       if (emailError) throw emailError;
 
-      // Send phone OTP
-      const { error: phoneError } = await supabase.auth.signInWithOtp({
-        phone,
-        options: {
-          shouldCreateUser: true,
-          data: userData
-        }
+      // Do NOT attempt to create/send phone OTP here yet.
+      // We will send the phone OTP after email verification using updateUser().
+      
+      // Inform the user what's next
+      toast({
+        title: "OTP Sent",
+        description: "Verification code sent to email. Verify email to trigger phone OTP.",
       });
-
-      if (phoneError) {
-        console.warn('Phone OTP failed:', phoneError.message);
-        // Don't throw error for phone, continue with email only
-        toast({
-          title: "OTP Sent",
-          description: "Verification code sent to email. Phone verification unavailable.",
-        });
-      } else {
-        toast({
-          title: "OTP Sent",
-          description: "Verification codes sent to both email and phone",
-        });
-      }
 
       return { error: null };
     } catch (error: any) {
@@ -77,16 +63,43 @@ export function useOtpAuth() {
   };
 
   const resendSignupOtp = async (contact: string, type: 'email' | 'phone') => {
-    const otpOptions = type === 'email' 
-      ? { 
-          email: contact,
-          options: {
-            emailRedirectTo: undefined // Prevent magic link
-          }
-        }
-      : { phone: contact };
+    if (type === 'phone') {
+      // For phone, we must be authenticated and use updateUser to trigger SMS OTP
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
+        toast({
+          title: "Verify Email First",
+          description: "Please verify your email to continue with phone verification.",
+          variant: "destructive"
+        });
+        return { error: new Error('Session required to resend phone OTP') };
+      }
 
-    const { error } = await supabase.auth.signInWithOtp(otpOptions);
+      const { error } = await supabase.auth.updateUser({ phone: contact });
+
+      if (error) {
+        toast({
+          title: "Resend Error",
+          description: error.message,
+          variant: "destructive"
+        });
+        return { error };
+      }
+
+      toast({
+        title: "OTP Sent",
+        description: "Verification code sent to your phone",
+      });
+      return { error: null };
+    }
+
+    // Email resend via OTP (no magic link)
+    const { error } = await supabase.auth.signInWithOtp({
+      email: contact,
+      options: {
+        emailRedirectTo: undefined // Prevent magic link
+      }
+    });
 
     if (error) {
       toast({
@@ -104,10 +117,41 @@ export function useOtpAuth() {
     return { error };
   };
 
+  const sendPhoneOtp = async (phone: string) => {
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (!sessionData.session) {
+      toast({
+        title: "Verify Email First",
+        description: "Please verify your email to continue with phone verification.",
+        variant: "destructive"
+      });
+      return { error: new Error('Session required to send phone OTP') };
+    }
+
+    const { error } = await supabase.auth.updateUser({ phone });
+
+    if (error) {
+      toast({
+        title: "Phone OTP Error",
+        description: error.message,
+        variant: "destructive"
+      });
+      return { error };
+    }
+
+    toast({
+      title: "OTP Sent",
+      description: "Verification code sent to your phone",
+    });
+
+    return { error: null };
+  };
+
   return {
     loading,
     sendSignupOtp,
     verifySignupOtp,
-    resendSignupOtp
+    resendSignupOtp,
+    sendPhoneOtp
   };
 }
