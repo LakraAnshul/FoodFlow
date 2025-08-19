@@ -1,8 +1,6 @@
 # 🍽️ Food-Flow
 
 ### 🚀 Project Title & Badges
-[![Build Status](https://img.shields.io/github/actions/workflow/status/username/repo/deploy.yml?branch=main&logo=github&style=flat-square)](https://github.com/username/repo/actions?query=workflow%3A%22Deploy+to+GitHub+Pages%22)
-[![License](https://img.shields.io/github/license/username/repo?color=blue&label=license)](https://github.com/username/repo/blob/main/LICENSE)
 [![Vite](https://img.shields.io/badge/vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/react-%2320232A.svg?style=flat-square&logo=react&logoColor=%2361DAFB)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -12,7 +10,7 @@
 ### ✨ Introduction & Live Demo
 Food-Flow is a dynamic web application designed to connect individuals for food sharing, reducing waste and fostering community. It provides a platform where users can list surplus food items and others can discover and book available food, promoting sustainable practices. 
 
-Live Demo: [Food-Flow Live](https://username.github.io/FoodFlow/)
+Live Demo: [Food-Flow Live](https://LakraAnshul.github.io/FoodFlow/)
 
 ### 📸 Application Screenshots
 Image: Homepage Screenshot
