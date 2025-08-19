@@ -15,9 +15,12 @@ Food-Flow is a dynamic web application designed to connect individuals for food 
 Live Demo: [Food-Flow Live](https://username.github.io/FoodFlow/)
 
 ### 📸 Application Screenshots
-[Image: Homepage Screenshot](public/hero-food-sharing.jpg)
-[Image: User Dashboard Screenshot](public/placeholder.svg)
-[Image: Mobile View Screenshot](public/placeholder.svg)
+[Image: Homepage Screenshot](<img width="1902" height="972" alt="image" src="https://github.com/user-attachments/assets/529a705d-5cfd-4da3-9042-4de75081efd8" />
+)
+[Image: Signup Page](<img width="1633" height="892" alt="image" src="https://github.com/user-attachments/assets/9381b751-8bdc-4b87-a997-ac5b3e973593" />
+)
+[Image: Log in Page](<img width="1902" height="967" alt="image" src="https://github.com/user-attachments/assets/f5207a4f-47ca-4bfd-bafa-96b496d8b882" />
+)
 
 ### 📝 Table of Contents
 - [Introduction & Live Demo](#-introduction--live-demo)
