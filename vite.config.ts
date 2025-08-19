@@ -5,8 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // CORRECTED: Match the repository name "FoodFlow"
-  base: "/FoodFlow/",
+  // CORRECTED: Base path is now conditional
+  base: mode === 'production' ? '/FoodFlow/' : '/',
 
   server: {
     host: "::",
