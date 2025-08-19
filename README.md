@@ -1,73 +1,108 @@
-# Welcome to your Lovable project
+## 🍽️ Food-Flow
 
-## Project info
+### 🚀 Project Title & Badges
+[![Build Status](https://img.shields.io/github/actions/workflow/status/username/repo/deploy.yml?branch=main&logo=github&style=flat-square)](https://github.com/username/repo/actions?query=workflow%3A%22Deploy+to+GitHub+Pages%22)
+[![License](https://img.shields.io/github/license/username/repo?color=blue&label=license)](https://github.com/username/repo/blob/main/LICENSE)
+[![Vite](https://img.shields.io/badge/vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![React](https://img.shields.io/badge/react-%2320232A.svg?style=flat-square&logo=react&logoColor=%2361DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/supabase-%233ECF8E.svg?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
 
-**URL**: https://lovable.dev/projects/d7472a2c-e90f-4b48-bfda-e28cd63a27ce
+### ✨ Introduction & Live Demo
+Food-Flow is a dynamic web application designed to connect individuals for food sharing, reducing waste and fostering community. It provides a platform where users can list surplus food items and others can discover and book available food, promoting sustainable practices. 
 
-## How can I edit this code?
+Live Demo: [Food-Flow Live](https://username.github.io/FoodFlow/)
 
-There are several ways of editing your application.
+### 📸 Application Screenshots
+[Image: Homepage Screenshot](public/hero-food-sharing.jpg)
+[Image: User Dashboard Screenshot](public/placeholder.svg)
+[Image: Mobile View Screenshot](public/placeholder.svg)
 
-**Use Lovable**
+### 📝 Table of Contents
+- [Introduction & Live Demo](#-introduction--live-demo)
+- [Application Screenshots](#-application-screenshots)
+- [About the Project](#-about-the-project)
+- [Key Features](#-key-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [How to Contribute](#-how-to-contribute)
+- [License](#-license)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d7472a2c-e90f-4b48-bfda-e28cd63a27ce) and start prompting.
+### 🎯 About the Project
+Food-Flow was inspired by the need to combat food waste and build stronger local communities. It aims to provide an intuitive and efficient way for individuals and small businesses to share excess food, ensuring it reaches those who can utilize it rather than going to landfill. The platform is designed for anyone interested in food sustainability, from individuals with surplus groceries to organizations looking to distribute food efficiently.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🌟 Key Features
+- ✅ **User Authentication (OTP)**: Secure login and signup processes using One-Time Passwords for enhanced security.
+- ✅ **Role-Based Dashboards**: Differentiated user experiences for 'Buyers' (those looking for food) and 'Listers' (those offering food).
+- ✅ **Food Listing and Booking System**: Listers can easily post details of available food items, while buyers can browse and book items.
+- ✅ **Protected Routes**: Ensures that sensitive parts of the application are only accessible to authenticated and authorized users.
+- ✅ **Client-Side Routing**: Smooth and fast navigation within the application without full page reloads.
+- ✅ **Dark Mode Support**: A user-friendly dark mode option for improved visual comfort.
 
-**Use your preferred IDE**
+### 💻 Tech Stack
+**Frontend**:
+- <mcurl name="React" url="https://react.dev/"></mcurl>: A JavaScript library for building user interfaces.
+- <mcurl name="Vite" url="https://vitejs.dev/"></mcurl>: A fast frontend build tool.
+- <mcurl name="TypeScript" url="https://www.typescriptlang.org/"></mcurl>: A superset of JavaScript that adds static typing.
+- <mcurl name="Tailwind CSS" url="https://tailwindcss.com/"></mcurl>: A utility-first CSS framework for rapidly building custom designs.
+- <mcurl name="React Router" url="https://reactrouter.com/"></mcurl>: For declarative routing in React applications.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+**Backend & Database**:
+- <mcurl name="Supabase" url="https://supabase.com/"></mcurl>: An open-source Firebase alternative providing a PostgreSQL database, Authentication, instant APIs, and Edge Functions.
+- <mcurl name="PostgreSQL" url="https://www.postgresql.org/"></mcurl>: A powerful, open-source object-relational database system (used via Supabase).
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### ⚙️ Getting Started
+Follow these instructions to set up and run the Food-Flow project on your local machine.
 
-Follow these steps:
+#### Prerequisites
+- <mcurl name="Git" url="https://git-scm.com/"></mcurl>
+- <mcurl name="Node.js" url="https://nodejs.org/en/"></mcurl> (v18 or higher recommended)
+- <mcurl name="npm" url="https://www.npmjs.com/"></mcurl> (usually comes with Node.js)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+#### Installation
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/username/FoodFlow.git
+   cd Food-Flow
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+#### Running the App
+To start the development server:
+```bash
 npm run dev
 ```
+This will typically start the application at `http://localhost:5173`.
 
-**Edit a file directly in GitHub**
+### 🔑 Environment Variables
+To connect to your Supabase project, you need to set up environment variables. Create a `.env` file in the root of your project and add the following:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```plaintext
+// .env.example
+VITE_SUPABASE_URL="YOUR_SUPABASE_URL"
+VITE_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
+```
 
-**Use GitHub Codespaces**
+Replace the placeholder values with your actual Supabase project URL and public anon key, which you can find in your Supabase project settings.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 🤝 How to Contribute
+We welcome contributions to the Food-Flow project! If you'd like to contribute, please follow these steps:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix: `git checkout -b feature/your-feature-name`.
+3. Make your changes and ensure your code adheres to the project's coding standards.
+4. Write clear, concise commit messages.
+5. Push your branch to your forked repository.
+6. Open a pull request to the `main` branch of the original repository, describing your changes in detail.
 
-## What technologies are used for this project?
+### 📜 License
+This project is licensed under the MIT License - see the <mcurl name="LICENSE" url="https://github.com/username/FoodFlow/blob/main/LICENSE"></mcurl> file for details.
 
-This project is built with:
+Copyright (c) 2025 Food-Flow
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/d7472a2c-e90f-4b48-bfda-e28cd63a27ce) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+        
