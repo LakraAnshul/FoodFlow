@@ -31,7 +31,8 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          {/* THIS IS THE ONLY CHANGE NEEDED */}
+          <BrowserRouter basename="/FoodFlow/">
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
