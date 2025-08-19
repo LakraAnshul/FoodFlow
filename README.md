@@ -1,4 +1,4 @@
-## 🍽️ Food-Flow
+# 🍽️ Food-Flow
 
 ### 🚀 Project Title & Badges
 [![Build Status](https://img.shields.io/github/actions/workflow/status/username/repo/deploy.yml?branch=main&logo=github&style=flat-square)](https://github.com/username/repo/actions?query=workflow%3A%22Deploy+to+GitHub+Pages%22)
@@ -15,13 +15,13 @@ Food-Flow is a dynamic web application designed to connect individuals for food 
 Live Demo: [Food-Flow Live](https://username.github.io/FoodFlow/)
 
 ### 📸 Application Screenshots
-[Image: Homepage Screenshot]
+Image: Homepage Screenshot
 <img width="1902" height="972" alt="image" src="https://github.com/user-attachments/assets/11e9eba1-ab74-41c4-8392-93300dbadfe1" />
 
-[Image: Signup Page]
+Image: Signup Page
 <img width="1633" height="892" alt="image" src="https://github.com/user-attachments/assets/c70d96b2-e1ea-4f5a-acac-dc76054aa950" />
 
-[Image: Log in Page]
+Log in Page
 <img width="1902" height="967" alt="image" src="https://github.com/user-attachments/assets/1b215945-2905-47fe-ba9f-5489d4f69d9f" />
 
 
@@ -34,8 +34,7 @@ Live Demo: [Food-Flow Live](https://username.github.io/FoodFlow/)
 - [Getting Started](#-getting-started)
 - [Environment Variables](#-environment-variables)
 - [How to Contribute](#-how-to-contribute)
-- [License](#-license)
-
+  
 ### 🎯 About the Project
 Food-Flow was inspired by the need to combat food waste and build stronger local communities. It aims to provide an intuitive and efficient way for individuals and small businesses to share excess food, ensuring it reaches those who can utilize it rather than going to landfill. The platform is designed for anyone interested in food sustainability, from individuals with surplus groceries to organizations looking to distribute food efficiently.
 
@@ -105,10 +104,4 @@ We welcome contributions to the Food-Flow project! If you'd like to contribute, 
 4. Write clear, concise commit messages.
 5. Push your branch to your forked repository.
 6. Open a pull request to the `main` branch of the original repository, describing your changes in detail.
-
-### 📜 License
-This project is licensed under the MIT License - see the <mcurl name="LICENSE" url="https://github.com/username/FoodFlow/blob/main/LICENSE"></mcurl> file for details.
-
-Copyright (c) 2025 Food-Flow
-
-        
+      
