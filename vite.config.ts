@@ -5,7 +5,8 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/Food-Flow/",
+  // CORRECTED: Match the repository name "FoodFlow"
+  base: "/FoodFlow/",
 
   server: {
     host: "::",
