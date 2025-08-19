@@ -1,0 +1,10 @@
+project_id = "jitxlcptvfifhmniikzh"
+
+[functions.create-food-listing]
+verify_jwt = true
+
+[functions.create-booking]
+verify_jwt = true
+
+[functions.update-booking-status]
+verify_jwt = true

@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Food Flow Design System - Modern, minimalist with soft pastel greens */
+
+@layer base {
+  :root {
+    /* Base colors */
+    --background: 0 0% 99%;
+    --foreground: 155 25% 20%;
+
+    /* Card system */
+    --card: 0 0% 100%;
+    --card-foreground: 155 25% 20%;
+
+    /* Popover system */
+    --popover: 0 0% 100%;
+    --popover-foreground: 155 25% 20%;
+
+    /* Primary - Soft Green Theme */
+    --primary: 142 69% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 142 69% 85%;
+    --primary-dark: 142 69% 45%;
+
+    /* Secondary - Warm Earth Tone */
+    --secondary: 45 89% 96%;
+    --secondary-foreground: 155 25% 20%;
+
+    /* Muted tones */
+    --muted: 142 30% 96%;
+    --muted-foreground: 155 15% 50%;
+
+    /* Accent - Complementary warm tone */
+    --accent: 35 100% 94%;
+    --accent-foreground: 155 25% 20%;
+
+    /* Destructive - Soft red */
+    --destructive: 0 65% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 142 30% 88%;
+    --input: 142 30% 92%;
+    --ring: 142 69% 58%;
+
+    /* Custom design tokens */
+    --radius: 0.75rem;
+    --shadow-soft: 0 4px 20px -2px hsl(142 20% 85% / 0.3);
+    --shadow-card: 0 8px 30px -8px hsl(142 30% 80% / 0.4);
+    --gradient-hero: linear-gradient(135deg, hsl(142 69% 95%) 0%, hsl(35 100% 98%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(142 30% 98%) 100%);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode with deep greens */
+    --background: 155 25% 8%;
+    --foreground: 142 30% 92%;
+
+    --card: 155 25% 10%;
+    --card-foreground: 142 30% 92%;
+
+    --popover: 155 25% 10%;
+    --popover-foreground: 142 30% 92%;
+
+    --primary: 142 69% 55%;
+    --primary-foreground: 155 25% 8%;
+    --primary-light: 142 69% 75%;
+    --primary-dark: 142 69% 35%;
+
+    --secondary: 155 20% 15%;
+    --secondary-foreground: 142 30% 92%;
+
+    --muted: 155 15% 15%;
+    --muted-foreground: 142 20% 65%;
+
+    --accent: 35 50% 15%;
+    --accent-foreground: 142 30% 92%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 155 20% 20%;
+    --input: 155 20% 18%;
+    --ring: 142 69% 55%;
+    
+    /* Dark mode shadows */
+    --shadow-soft: 0 4px 20px -2px hsl(155 40% 5% / 0.6);
+    --shadow-card: 0 8px 30px -8px hsl(155 40% 5% / 0.8);
+    --gradient-hero: linear-gradient(135deg, hsl(155 25% 12%) 0%, hsl(35 30% 12%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(155 25% 10%) 0%, hsl(155 20% 15%) 100%);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-arvo;
+  }
+
+  /* Custom utilities */
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  /* Glassmorphism effects */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  }
+  
+  .dark .glass-card {
+    background: rgba(21, 43, 40, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .dark .glass-nav {
+    background: rgba(21, 43, 40, 0.8);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
